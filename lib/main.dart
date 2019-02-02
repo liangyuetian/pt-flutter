@@ -4,99 +4,90 @@
 
 import 'package:flutter/material.dart';
 
-// This app is a stateful, it tracks the user's current choice.
-class BasicAppBarSample extends StatefulWidget {
-  @override
-  _BasicAppBarSampleState createState() => new _BasicAppBarSampleState();
-}
-
-class _BasicAppBarSampleState extends State<BasicAppBarSample> {
-  Choice _selectedChoice = choices[0]; // The app's "state".
-
-  void _select(Choice choice) {
-    setState(() { // Causes the app to rebuild with the new _selectedChoice.
-      _selectedChoice = choice;
-    });
-  }
-
+class ExpansionTileSample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        home: new Scaffold(
+      home: new Scaffold(
         appBar: new AppBar(
-          title: const Text('Basic AppBar'),
-          actions: <Widget>[
-            new IconButton( // action button
-              icon: new Icon(choices[0].icon),
-              onPressed: () { _select(choices[0]); },
-            ),
-            new IconButton( // action button
-              icon: new Icon(choices[1].icon),
-              onPressed: () { _select(choices[1]); },
-            ),
-            new PopupMenuButton<Choice>( // overflow menu
-              onSelected: _select,
-              icon: new Icon(Icons.add), // 默认图标是竖着的三个点，但是可以重新设置
-              itemBuilder: (BuildContext context) {
-                // skip(2) 方法是跳过前2个
-                return choices.skip(2).map((Choice choice) {
-                  return new PopupMenuItem<Choice>(
-                    value: choice,
-                    child: new Text(choice.title),
-                  );
-                }).toList();
-              },
-            ),
-          ],
+          title: const Text('ExpansionTile'),
         ),
-        body: new Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: new ChoiceCard(choice: _selectedChoice),
+        body: new ListView.builder(
+          itemBuilder: (BuildContext context, int index) => new EntryItem(data[index]),
+          itemCount: data.length,
         ),
       ),
     );
   }
 }
 
-class Choice {
-  const Choice({ this.title, this.icon });
+// One entry in the multilevel list displayed by this app.
+class Entry {
+  Entry(this.title, [this.children = const <Entry>[]]);
   final String title;
-  final IconData icon;
+  final List<Entry> children;
 }
 
-const List<Choice> choices = const <Choice>[
-  const Choice(title: 'Car', icon: Icons.directions_car),
-  const Choice(title: 'Bicycle', icon: Icons.directions_bike),
-  const Choice(title: 'Boat', icon: Icons.directions_boat),
-  const Choice(title: 'Bus', icon: Icons.directions_bus),
-  const Choice(title: 'Train', icon: Icons.directions_railway),
-  const Choice(title: 'Walk', icon: Icons.directions_walk),
+// The entire multilevel list displayed by this app.
+final List<Entry> data = <Entry>[
+  new Entry('Chapter A',
+    <Entry>[
+      new Entry('Section A0',
+        <Entry>[
+          new Entry('Item A0.1'),
+          new Entry('Item A0.2'),
+          new Entry('Item A0.3'),
+        ],
+      ),
+      new Entry('Section A1'),
+      new Entry('Section A2'),
+    ],
+  ),
+  new Entry('Chapter B',
+    <Entry>[
+      new Entry('Section B0'),
+      new Entry('Section B1'),
+    ],
+  ),
+  new Entry('Chapter C',
+    <Entry>[
+      new Entry('Section C0'),
+      new Entry('Section C1'),
+      new Entry('Section C2',
+        <Entry>[
+          new Entry('Item C2.0'),
+          new Entry('Item C2.1'),
+          new Entry('Item C2.2'),
+          new Entry('Item C2.3'),
+        ],
+      ),
+    ],
+  ),
 ];
 
-class ChoiceCard extends StatelessWidget {
-  const ChoiceCard({ Key key, this.choice }) : super(key: key);
+// Displays one Entry. If the entry has children then it's displayed
+// with an ExpansionTile.
+class EntryItem extends StatelessWidget {
+  const EntryItem(this.entry);
 
-  final Choice choice;
+  final Entry entry;
+
+  Widget _buildTiles(Entry root) {
+    if (root.children.isEmpty)
+      return new ListTile(title: new Text(root.title));
+    return new ExpansionTile(
+      key: new PageStorageKey<Entry>(root),
+      title: new Text(root.title),
+      children: root.children.map(_buildTiles).toList(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle textStyle = Theme.of(context).textTheme.display1;
-    return new Card(
-      color: Colors.white,
-      child: new Center(
-        child: new Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            new Icon(choice.icon, size: 128.0, color: textStyle.color),
-            new Text(choice.title, style: textStyle),
-          ],
-        ),
-      ),
-    );
+    return _buildTiles(entry);
   }
 }
 
 void main() {
-  runApp(new BasicAppBarSample());
+  runApp(new ExpansionTileSample());
 }
