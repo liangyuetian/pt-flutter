@@ -23,23 +23,8 @@ class ExpansionTileSample extends StatelessWidget {
               ),
               decoration: new BoxDecoration(
                 color: Colors.red[400],
-//                borderRadius: new BorderRadius.vertical(
-//                    top: Radius.circular(20.0),
-//                    bottom: Radius.circular(10.0)
-//                ),
-                shape: BoxShape.circle, // 专门设置圆和椭圆
-                boxShadow: <BoxShadow>[
-                  new BoxShadow (
-                    color: const Color(0xcc000000),
-                    offset: new Offset(0.0, 2.0),
-                    blurRadius: 4.0,
-                  ),
-                  new BoxShadow (
-                    color: const Color(0x80000000),
-                    offset: new Offset(0.0, 6.0),
-                    blurRadius: 20.0,
-                  ),
-                ],
+                borderRadius: new BorderRadius.vertical(
+                    top: Radius.circular(20.0), bottom: Radius.circular(20.0)),
               ),
               padding: new EdgeInsets.all(16.0),
             ),
