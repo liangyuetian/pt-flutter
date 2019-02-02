@@ -12,23 +12,34 @@ class ExpansionTileSample extends StatelessWidget {
         appBar: new AppBar(
           title: const Text('ExpansionTile'),
         ),
-        body: new Container( // grey box
+        body: new Container(
+          // grey box
           child: new Center(
-            child: new Container( // red box
+            child: new Container(
+              // red circle
               child: new Text(
-                "也许每个人出生的时候都以为这世界都是为他一个人而存在的,当他发现自己错的时候,他便开始长大. ".toUpperCase(),
-                style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 4.0,
-                  wordSpacing: 10.0
-                ),
-                overflow: TextOverflow.ellipsis, // 文本超出显示省略号
-                maxLines: 1, // 最大多少行视为超出
+                "Lorem ipsum",
+                style: bold24Roboto,
               ),
               decoration: new BoxDecoration(
                 color: Colors.red[400],
+//                borderRadius: new BorderRadius.vertical(
+//                    top: Radius.circular(20.0),
+//                    bottom: Radius.circular(10.0)
+//                ),
+                shape: BoxShape.circle, // 专门设置圆和椭圆
+                boxShadow: <BoxShadow>[
+                  new BoxShadow (
+                    color: const Color(0xcc000000),
+                    offset: new Offset(0.0, 2.0),
+                    blurRadius: 4.0,
+                  ),
+                  new BoxShadow (
+                    color: const Color(0x80000000),
+                    offset: new Offset(0.0, 6.0),
+                    blurRadius: 20.0,
+                  ),
+                ],
               ),
               padding: new EdgeInsets.all(16.0),
             ),
