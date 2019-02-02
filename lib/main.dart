@@ -12,81 +12,41 @@ class ExpansionTileSample extends StatelessWidget {
         appBar: new AppBar(
           title: const Text('ExpansionTile'),
         ),
-        body: new ListView.builder(
-          itemBuilder: (BuildContext context, int index) => new EntryItem(data[index]),
-          itemCount: data.length,
+        body: new Container( // grey box
+          child: new Center(
+            child: new Container( // red box
+              child: new Text(
+                "也许每个人出生的时候都以为这世界都是为他一个人而存在的,当他发现自己错的时候,他便开始长大. ".toUpperCase(),
+                style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 4.0,
+                  wordSpacing: 10.0
+                ),
+                overflow: TextOverflow.ellipsis, // 文本超出显示省略号
+                maxLines: 1, // 最大多少行视为超出
+              ),
+              decoration: new BoxDecoration(
+                color: Colors.red[400],
+              ),
+              padding: new EdgeInsets.all(16.0),
+            ),
+          ),
+          width: 420.0,
+          height: 240.0,
+          color: Colors.grey[300],
         ),
       ),
     );
   }
 }
 
-// One entry in the multilevel list displayed by this app.
-class Entry {
-  Entry(this.title, [this.children = const <Entry>[]]);
-  final String title;
-  final List<Entry> children;
-}
-
-// The entire multilevel list displayed by this app.
-final List<Entry> data = <Entry>[
-  new Entry('Chapter A',
-    <Entry>[
-      new Entry('Section A0',
-        <Entry>[
-          new Entry('Item A0.1'),
-          new Entry('Item A0.2'),
-          new Entry('Item A0.3'),
-        ],
-      ),
-      new Entry('Section A1'),
-      new Entry('Section A2'),
-    ],
-  ),
-  new Entry('Chapter B',
-    <Entry>[
-      new Entry('Section B0'),
-      new Entry('Section B1'),
-    ],
-  ),
-  new Entry('Chapter C',
-    <Entry>[
-      new Entry('Section C0'),
-      new Entry('Section C1'),
-      new Entry('Section C2',
-        <Entry>[
-          new Entry('Item C2.0'),
-          new Entry('Item C2.1'),
-          new Entry('Item C2.2'),
-          new Entry('Item C2.3'),
-        ],
-      ),
-    ],
-  ),
-];
-
-// Displays one Entry. If the entry has children then it's displayed
-// with an ExpansionTile.
-class EntryItem extends StatelessWidget {
-  const EntryItem(this.entry);
-
-  final Entry entry;
-
-  Widget _buildTiles(Entry root) {
-    if (root.children.isEmpty)
-      return new ListTile(title: new Text(root.title));
-    return new ExpansionTile(
-      key: new PageStorageKey<Entry>(root),
-      title: new Text(root.title),
-      children: root.children.map(_buildTiles).toList(),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildTiles(entry);
-  }
-}
+TextStyle bold24Roboto = new TextStyle(
+  color: Colors.white,
+  fontSize: 24.0,
+  fontWeight: FontWeight.w900,
+);
 
 void main() {
   runApp(new ExpansionTileSample());
