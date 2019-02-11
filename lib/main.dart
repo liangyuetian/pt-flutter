@@ -18,13 +18,13 @@ class ExpansionTileSample extends StatelessWidget {
             child: new Container(
               // red circle
               child: new Text(
-                "Lorem ipsum",
+                "SY",
                 style: bold24Roboto,
               ),
               decoration: new BoxDecoration(
                 color: Colors.red[400],
-                borderRadius: new BorderRadius.vertical(
-                    top: Radius.circular(20.0), bottom: Radius.circular(20.0)),
+//                borderRadius: new BorderRadius.vertical(
+//                    top: Radius.circular(20.0), bottom: Radius.circular(20.0)),
               ),
               padding: new EdgeInsets.all(16.0),
             ),
