@@ -15,7 +15,7 @@
     <!-- 原始名称：io.flutter.app.FlutterApplication -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="pt"
+        android:label="SY"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
